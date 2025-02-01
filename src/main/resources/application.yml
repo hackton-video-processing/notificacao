@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    url: ${DATABASE_URI:jdbc:postgresql://localhost:5432/notification}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  mail:
+    host: smtp.gmail.com # Servidor SMTP
+    port: 587 # Porta do servidor SMTP
+    username: ${MAIL_USERNAME:alymaciel8@gmail.com} # Propriedade via variável de ambiente
+    password: ${MAIL_PASSWORD:fulz dqaq tpsy mncv} # Propriedade via variável de ambiente
+
+email:
+  provider: ${MAIL_PROVIDER:smtp}
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: "/v1"
+
+# swagger-ui and api-docs custom path
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui"
+  api-docs:
+    path: "/api-docs"
+
