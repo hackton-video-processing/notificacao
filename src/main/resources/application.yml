@@ -1,22 +1,18 @@
-spring:
-  datasource:
-    url: ${DATABASE_URI:jdbc:postgresql://localhost:5432/notification}
-    username: ${DATABASE_USER:postgres}
-    password: ${DATABASE_PASSWORD:postgres}
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+mail:
+  host: smtp.gmail.com
+  port: 587
+  username: ${MAIL_USERNAME:alymaciel8@gmail.com}
+  password: ${MAIL_PASSWORD:fulz dqaq tpsy mncv}
 
-  mail:
-    host: smtp.gmail.com # Servidor SMTP
-    port: 587 # Porta do servidor SMTP
-    username: ${MAIL_USERNAME:alymaciel8@gmail.com} # Propriedade via variável de ambiente
-    password: ${MAIL_PASSWORD:fulz dqaq tpsy mncv} # Propriedade via variável de ambiente
+aws:
+  region: ${AWS_REGION:us-east-1}
+  accessKeyId: ${AWS_ACCESSKEY:AKIARSU7KYCVAEWLDB7E}
+  secretKey: ${AWS_SECRETKEY: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}
+  ses:
+    sender: ${AWS_SES_SENDER:alymaciel8@gmail.com}
 
 email:
-  provider: ${MAIL_PROVIDER:smtp}
+  provider: ${MAIL_PROVIDER:aws}
 
 server:
   port: ${PORT:8080}

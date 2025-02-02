@@ -1,37 +1,33 @@
 package com.hackaton.infra.awsses;
 
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.model.*;
 import com.hackaton.domain.interfaces.EmailInterface;
 import com.hackaton.infra.dto.EmailRequestDTO;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
-import software.amazon.awssdk.services.ses.SesClient;
-import software.amazon.awssdk.services.ses.model.*;
 
 @Service
-@ConditionalOnProperty(name = "email.provider", havingValue = "aws")
 public class AwsSesEmailService implements EmailInterface {
 
-    private final SesClient sesClient;
+    private final AmazonSimpleEmailService amazonSimpleEmailService;
 
     @Value("${aws.ses.sender}")
     private String sender;
 
-    public AwsSesEmailService(SesClient sesClient) {
-        this.sesClient = sesClient;
+    public AwsSesEmailService(AmazonSimpleEmailService amazonSimpleEmailService) {
+        this.amazonSimpleEmailService = amazonSimpleEmailService;
     }
 
     @Override
     public void sendEmail(EmailRequestDTO request) {
-        SendEmailRequest emailRequest = SendEmailRequest.builder()
-                .source(sender)
-                .destination(Destination.builder().toAddresses(request.getTo()).build())
-                .message(Message.builder()
-                        .subject(Content.builder().data(request.getSubject()).build())
-                        .body(Body.builder().text(Content.builder().data(request.getMessage()).build()).build())
-                        .build())
-                .build();
 
-        sesClient.sendEmail(emailRequest);
+        SendEmailRequest sendEmailRequest = new SendEmailRequest()
+                .withSource(sender)
+                .withDestination(new Destination().withToAddresses(request.getTo()))
+                .withMessage(new Message().withSubject(new Content(request.getSubject()))
+                .withBody(new Body().withText(new Content(request.getMessage()))));
+
+        this.amazonSimpleEmailService.sendEmail(sendEmailRequest);
     }
 }

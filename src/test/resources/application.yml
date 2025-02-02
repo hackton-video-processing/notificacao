@@ -1,19 +1,17 @@
-spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
 
-  mail:
-    host: smtp.example.com # Servidor SMTP
-    port: 587 # Porta do servidor SMTP
-    username: teste@teste.com
-    password: teste
+mail:
+  host: smtp.example.com # Servidor SMTP
+  port: 587 # Porta do servidor SMTP
+  username: teste@teste.com
+  password: teste
+
+aws:
+  region: us-teste-1
+  accessKeyId: teste
+  secretKey: teste
+  ses:
+    sender: teste@teste.com
+
+email:
+  provider: javaMail
+

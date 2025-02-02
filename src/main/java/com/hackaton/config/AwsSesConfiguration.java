@@ -1,20 +1,34 @@
 package com.hackaton.config;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.ses.SesClient;
+import org.springframework.beans.factory.annotation.Value;
+
 
 
 @Configuration
 public class AwsSesConfiguration {
 
+    @Value("${aws.accessKeyId}")
+    private String accessKeyId;
+
+    @Value("${aws.secretKey}")
+    private String secretKey;
+
+    @Value("${aws.region}")
+    private String region;
+
     @Bean
-    public SesClient sesClient() {
-        return SesClient.builder()
-                .credentialsProvider(ProfileCredentialsProvider.create("default"))
-                .region(Region.US_EAST_1)
+    public AmazonSimpleEmailService amazonSimpleEmailService() {
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKeyId, secretKey);
+
+        return AmazonSimpleEmailServiceClientBuilder.standard()
+                .withRegion(region)
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
     }
 }

@@ -1,16 +1,16 @@
 package com.hackaton.config;
 
-import com.hackaton.infra.smtp.SmtpEmailService;
+import com.hackaton.infra.smtp.JavaMailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
-public class SmtpEmailConfiguration {
+public class JavaMailConfiguration {
 
     @Bean
-    SmtpEmailService smtpEmailService(JavaMailSender javaMailSender) {
-        return new SmtpEmailService(javaMailSender);
+    JavaMailService javaMailService(JavaMailSender javaMailSender) {
+        return new JavaMailService(javaMailSender);
     }
 
 }

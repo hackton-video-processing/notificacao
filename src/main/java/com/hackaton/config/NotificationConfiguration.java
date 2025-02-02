@@ -1,9 +1,8 @@
 package com.hackaton.config;
 
 import com.hackaton.application.usecases.NotificationUseCases;
-import com.hackaton.domain.interfaces.EmailInterface;
 import com.hackaton.infra.awsses.AwsSesEmailService;
-import com.hackaton.infra.smtp.SmtpEmailService;
+import com.hackaton.infra.smtp.JavaMailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +14,9 @@ public class NotificationConfiguration {
     private String emailProvider;
 
     @Bean
-    NotificationUseCases notificationUseCases(AwsSesEmailService awsSesEmailService, SmtpEmailService smtpEmailService) {
-        if ("smtp".equalsIgnoreCase(emailProvider)) {
-            return new NotificationUseCases(smtpEmailService);
+    NotificationUseCases notificationUseCases(AwsSesEmailService awsSesEmailService, JavaMailService javaMailService) {
+        if ("javaMail".equalsIgnoreCase(emailProvider)) {
+            return new NotificationUseCases(javaMailService);
         } else if ("aws".equalsIgnoreCase(emailProvider)) {
             return new NotificationUseCases(awsSesEmailService);
         }
