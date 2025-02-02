@@ -15,7 +15,7 @@ email:
   provider: ${MAIL_PROVIDER}
 
 server:
-  port: ${PORT}
+  port: ${PORT:8080}  # Define a porta a partir da variável de ambiente PORT ou usa 8080 como fallback
   servlet:
     context-path: "/v1"
 
