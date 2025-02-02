@@ -1,21 +1,21 @@
 mail:
   host: smtp.gmail.com
   port: 587
-  username: ${MAIL_USERNAME:alymaciel8@gmail.com}
-  password: ${MAIL_PASSWORD:fulz dqaq tpsy mncv}
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
 
 aws:
-  region: ${AWS_REGION:us-east-1}
-  accessKeyId: ${AWS_ACCESS_KEY_ID:AKIARSU7KYCVAEWLDB7E}
-  secretKey: ${AWS_SECRET_ACCESS_KEY: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}
+  region: ${AWS_REGION}
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretKey: ${AWS_SECRET_ACCESS_KEY}
   ses:
-    sender: ${AWS_SES_SENDER:alymaciel8@gmail.com}
+    sender: ${AWS_SES_SENDER}
 
 email:
-  provider: ${MAIL_PROVIDER:aws}
+  provider: ${MAIL_PROVIDER}
 
 server:
-  port: ${PORT:8080}
+  port: ${PORT}
   servlet:
     context-path: "/v1"
 
