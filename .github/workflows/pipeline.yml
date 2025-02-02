@@ -96,6 +96,6 @@ jobs:
             docker pull ${{ secrets.ACCOUNT_ID  }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
             
             # Executar novo container
-            docker run -d --name meu-container -p 80:80 ${{ secrets.ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+            docker run -d --name meu-container -p 80:8080 ${{ secrets.ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
           EOF
 
