@@ -12,5 +12,4 @@ public class JavaMailConfiguration {
     JavaMailService javaMailService(JavaMailSender javaMailSender) {
         return new JavaMailService(javaMailSender);
     }
-
 }
