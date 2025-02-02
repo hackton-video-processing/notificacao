@@ -6,8 +6,8 @@ mail:
 
 aws:
   region: ${AWS_REGION:us-east-1}
-  accessKeyId: ${AWS_ACCESSKEY:AKIARSU7KYCVAEWLDB7E}
-  secretKey: ${AWS_SECRETKEY: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}
+  accessKeyId: ${AWS_ACCESS_KEY_ID:AKIARSU7KYCVAEWLDB7E}
+  secretKey: ${AWS_SECRET_ACCESS_KEY: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}
   ses:
     sender: ${AWS_SES_SENDER:alymaciel8@gmail.com}
 
