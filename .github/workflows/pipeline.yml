@@ -43,7 +43,7 @@ jobs:
       # Step 1: Fazer o checkout do repositório
       - name: Checkout repository
         uses: actions/checkout@v2
-
+  
       # Step 2: Configurar credenciais da AWS
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -51,42 +51,51 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-
+  
       # Step 3: Criar repositório ECS caso não exista
       - name: Create ECR Repository if not exists
         run: |
-          aws ecr describe-repositories --repository-names ${{ secrets.ECR_REPOSITORY }} || aws ecr create-repository --repository-name ${{ secrets.ECR_REPOSITORY }} --region ${{ secrets.AWS_REGION }}
-
+          aws ecr describe-repositories --repository-names ${{ secrets.ECR_REPOSITORY }} --region ${{ secrets.AWS_REGION }} || \
+          aws ecr create-repository --repository-name ${{ secrets.ECR_REPOSITORY }} --region ${{ secrets.AWS_REGION }}
+  
       # Step 4: Fazer login no repositório ECR
       - name: Log in to Amazon ECR
         run: |
-          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
-
-      # Step 5: Fazer build da imagem da aplicação java (baseado do arquivo docker do projeto)
+          aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+  
+      # Step 5: Fazer build da imagem da aplicação Java (baseado no Dockerfile do projeto)
       - name: Build Docker image
         run: |
-          docker build -t restaurant-application .
-          docker tag restaurant-application:latest ${{ secrets.ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-
+          docker build -t notification-hackaton .
+          docker tag restaurant-application:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+  
       # Step 6: Fazer push da imagem criada para o repositório ECS
       - name: Push Docker image to Amazon ECR
         run: |
-          docker push ${{ secrets.ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-
-      # Step 7: Fazer deploy no EC2
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+  
+      # Step 7: Fazer deploy na EC2
       - name: Configurar SSH e Deploy na EC2
         run: |
           echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key.pem
           chmod 600 private_key.pem
           
           ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-            echo "Fazendo pull da imagem do ECR..."
+            # Instalar Docker caso não esteja presente
+            sudo yum install docker -y
+            sudo systemctl start docker
+            sudo systemctl enable docker
+  
+            # Fazer login no ECR
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
             
-            docker stop meu-container || true
-            docker rm meu-container || true
+            # Parar e remover containers antigos
+            docker ps -q --filter "name=meu-container" | grep -q . && docker stop meu-container && docker rm meu-container || echo "Container não encontrado."
+  
+            # Fazer pull da imagem do ECR
             docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
             
-            echo "Executando novo container..."
+            # Executar novo container
             docker run -d --name meu-container -p 80:80 ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
           EOF
+
