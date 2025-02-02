@@ -13,20 +13,18 @@ public class EmailRequestDTOTest {
         EmailRequestDTO email = new EmailRequestDTO("test@example.com", "Test Subject", "Test Message");
 
         // Verificando os valores
-        assertEquals("test@example.com", email.getTo());
-        assertEquals("Test Subject", email.getSubject());
-        assertEquals("Test Message", email.getMessage());
+        assertEquals("test@example.com", email.to());
+        assertEquals("Test Subject", email.subject());
+        assertEquals("Test Message", email.message());
 
         // Criando um objeto usando o construtor vazio e setters
-        EmailRequestDTO emailEmpty = new EmailRequestDTO();
-        emailEmpty.setTo("user@example.com");
-        emailEmpty.setSubject("Hello");
-        emailEmpty.setMessage("This is a test.");
+        EmailRequestDTO emailEmpty = new EmailRequestDTO("user@example.com", "Hello", "This is a test.");
+
 
         // Verificando os valores
-        assertEquals("user@example.com", emailEmpty.getTo());
-        assertEquals("Hello", emailEmpty.getSubject());
-        assertEquals("This is a test.", emailEmpty.getMessage());
+        assertEquals("user@example.com", emailEmpty.to());
+        assertEquals("Hello", emailEmpty.subject());
+        assertEquals("This is a test.", emailEmpty.message());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.hackaton.config;
 
-import com.hackaton.infra.smtp.JavaMailService;
+import com.hackaton.infra.javaMail.JavaMailService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

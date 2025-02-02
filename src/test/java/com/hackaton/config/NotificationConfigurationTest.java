@@ -2,15 +2,13 @@ package com.hackaton.config;
 
 import com.hackaton.application.usecases.NotificationUseCases;
 import com.hackaton.infra.awsses.AwsSesEmailService;
-import com.hackaton.infra.smtp.JavaMailService;
+import com.hackaton.infra.javaMail.JavaMailService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import static org.junit.jupiter.api.Assertions.*;

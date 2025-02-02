@@ -2,7 +2,7 @@ package com.hackaton.config;
 
 import com.hackaton.application.usecases.NotificationUseCases;
 import com.hackaton.infra.awsses.AwsSesEmailService;
-import com.hackaton.infra.smtp.JavaMailService;
+import com.hackaton.infra.javaMail.JavaMailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

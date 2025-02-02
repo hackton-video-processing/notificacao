@@ -1,4 +1,4 @@
-package com.hackaton.infra.smtp;
+package com.hackaton.infra.javaMail;
 
 import com.hackaton.infra.dto.EmailRequestDTO;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,4 +1,4 @@
-package com.hackaton.infra.smtp;
+package com.hackaton.infra.javaMail;
 
 import com.hackaton.domain.interfaces.EmailInterface;
 import com.hackaton.infra.dto.EmailRequestDTO;
@@ -18,9 +18,9 @@ public class JavaMailService implements EmailInterface {
     @Override
     public void sendEmail(EmailRequestDTO request) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(request.getTo());
-        mailMessage.setSubject(request.getSubject());
-        mailMessage.setText(request.getMessage());
+        mailMessage.setTo(request.to());
+        mailMessage.setSubject(request.subject());
+        mailMessage.setText(request.message());
 
         mailSender.send(mailMessage);
     }

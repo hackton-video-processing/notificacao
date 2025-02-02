@@ -24,9 +24,9 @@ public class AwsSesEmailService implements EmailInterface {
 
         SendEmailRequest sendEmailRequest = new SendEmailRequest()
                 .withSource(sender)
-                .withDestination(new Destination().withToAddresses(request.getTo()))
-                .withMessage(new Message().withSubject(new Content(request.getSubject()))
-                .withBody(new Body().withText(new Content(request.getMessage()))));
+                .withDestination(new Destination().withToAddresses(request.to()))
+                .withMessage(new Message().withSubject(new Content(request.subject()))
+                .withBody(new Body().withText(new Content(request.message()))));
 
         this.amazonSimpleEmailService.sendEmail(sendEmailRequest);
     }
