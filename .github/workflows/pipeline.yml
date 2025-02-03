@@ -107,6 +107,16 @@ jobs:
   
             # Fazer pull da imagem do ECR
             docker pull ${{ secrets.ACCOUNT_ID  }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+
+            echo $MAIL_USERNAME
+            echo $MAIL_PASSWORD
+            echo $AWS_REGION
+            echo $AWS_ACCESS_KEY_ID
+            echo $AWS_SECRET_ACCESS_KEY
+            echo $AWS_SES_SENDER
+            echo $MAIL_PROVIDER
+            echo $PORT
+
             
             # Executar novo container
             docker run -d --name meu-container \
