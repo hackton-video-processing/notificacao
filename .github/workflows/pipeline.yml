@@ -91,7 +91,12 @@ jobs:
             if ! command -v aws &> /dev/null; then
               sudo yum install -y aws-cli
             fi
-      
+
+            # Adicionar o usuário ao grupo Docker (requer logout/login para surtir efeito)
+            sudo usermod -aG docker $USER
+
+            newgrp docker
+
             # Configurar credenciais manualmente
             aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
             aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
@@ -101,13 +106,13 @@ jobs:
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.ACCOUNT_ID  }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
             
             # Parar e remover containers antigos
-            docker ps -q --filter "name=meu-container" | grep -q . && docker stop meu-container && docker rm meu-container || echo "Container não encontrado."
+           docker ps -q --filter "name=meu-container" | grep -q . && docker stop meu-container && docker rm meu-container || echo "Container não encontrado."
   
             # Fazer pull da imagem do ECR
-            docker pull ${{ secrets.ACCOUNT_ID  }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+           docker pull ${{ secrets.ACCOUNT_ID  }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
 
             # Executar novo container com variáveis passadas diretamente
-            docker run -d --name meu-container \
+           docker run -d --name meu-container \
             -e MAIL_USERNAME="${{ secrets.MAIL_USERNAME }}" \
             -e MAIL_PASSWORD="${{ secrets.MAIL_PASSWORD }}" \
             -e AWS_REGION="${{ secrets.AWS_REGION }}" \
