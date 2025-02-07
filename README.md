@@ -29,3 +29,4 @@ Dentro do Projeto no diretório "insomnia" há um arquivo com uma collection ins
 ```
 
 ## Cobertura de teste
+![image](https://github.com/user-attachments/assets/4f81b7f9-6b3d-4883-9559-b3eaac74c140)
