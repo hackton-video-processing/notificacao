@@ -10,7 +10,7 @@ O microservice tem como intuito realizar o processo de notificação.
 
 ## Event Storming do Projeto
 ```url
-https://miro.com/app/board/uXjVKSt4Gq8=/?share_link_id=968579577663
+https://miro.com/app/board/uXjVLv2tTg4=/
 ```
 
 ## Para acessar o swagger e realizar os testes
